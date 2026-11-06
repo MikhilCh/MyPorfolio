@@ -23,6 +23,19 @@ npm run preview
 
 The build runs Astro/TypeScript checks before generating static files in `dist/`. Preview serves that output locally. Deploy `dist/` to a static host; `npm run preview` is for local verification.
 
+## Deploy to Cloudflare Workers
+
+The root `wrangler.jsonc` configures Workers to serve the static `dist/` output and the generated custom 404 page. This site does not need the Astro Cloudflare adapter.
+
+In the Cloudflare Workers Git build settings, use:
+
+- Root directory: the repository root (where `package.json` and `wrangler.jsonc` are located).
+- Build command: `npm run build`.
+- Deploy command: `npx wrangler deploy`.
+- Node.js: 22.12 or newer.
+
+The Worker name is `myporfolio`; keep the Cloudflare project name and `wrangler.jsonc` name aligned. Set `SITE_URL` to your public origin and leave `BASE_PATH` unset for a root-domain deployment. Commit the Wrangler configuration before retrying the build so Wrangler uses it instead of attempting automatic Astro adapter setup.
+
 ## Personalize before publishing
 
 Edit `src/data/profile.ts`:
